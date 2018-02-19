@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+defaultTasks 'build', 'shadowJar'
+
+group 'duelingbot'
+version '0.1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    compile "com.github.austinv11:Discord4j:2.9.3"
+    // Allows you to log events from Discord4J
+    compile "ch.qos.logback:logback-classic:1.1.7"
+}
