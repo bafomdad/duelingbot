@@ -1,6 +1,6 @@
 package com.bafomdad.duelingbot.cards;
 
-import com.bafomdad.duelingbot.enums.CardTypes;
+import com.bafomdad.duelingbot.api.ICard;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

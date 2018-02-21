@@ -1,9 +1,8 @@
 package com.bafomdad.duelingbot.internal;
 
-import com.bafomdad.duelingbot.cards.ICard;
+import com.bafomdad.duelingbot.api.ICard;
 import sx.blah.discord.handle.obj.IUser;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

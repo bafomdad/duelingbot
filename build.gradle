@@ -1,13 +1,13 @@
+//apply plugin: 'java'
 plugins {
     id 'java'
     id 'idea'
+    // Allows running "gradle shadowJar" to create an executable JAR of your project
     id 'com.github.johnrengelman.shadow' version '1.2.3'
 }
 
-defaultTasks 'build', 'shadowJar'
-
 group 'duelingbot'
-version '0.1.0'
+version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
@@ -20,6 +20,4 @@ repositories {
 
 dependencies {
     compile "com.github.austinv11:Discord4j:2.9.3"
-    // Allows you to log events from Discord4J
-    compile "ch.qos.logback:logback-classic:1.1.7"
 }

@@ -1,12 +1,12 @@
 package com.bafomdad.duelingbot.utils;
 
+import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.cards.*;
 import com.bafomdad.duelingbot.internal.Deck;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

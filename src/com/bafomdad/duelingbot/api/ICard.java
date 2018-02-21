@@ -1,4 +1,4 @@
-package com.bafomdad.duelingbot.cards;
+package com.bafomdad.duelingbot.api;
 
 import com.bafomdad.duelingbot.enums.CardTypes;
 import com.bafomdad.duelingbot.enums.EnumProperty;

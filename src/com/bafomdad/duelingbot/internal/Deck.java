@@ -1,7 +1,7 @@
 package com.bafomdad.duelingbot.internal;
 
+import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.api.IPosition;
-import com.bafomdad.duelingbot.cards.*;
 import com.bafomdad.duelingbot.utils.PairUtil;
 import com.bafomdad.duelingbot.utils.WrapperUtil;
 import sx.blah.discord.handle.obj.IUser;

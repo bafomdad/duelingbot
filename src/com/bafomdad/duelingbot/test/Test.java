@@ -25,41 +25,6 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
 
-        if (args.length > 0 && args[0].equals("debug")) {
-            if (MONSTER_DIR.exists()) {
-                for (File f : MONSTER_DIR.listFiles()) {
-                    MonsterCard monster = JsonUtil.fromJson(new TypeToken<MonsterCard>(){}, f);
-                    if (monster != null) {
-                        for (String info : monster.getCardInfo())
-                            System.out.println(info);
-
-                        System.out.println("###################################");
-                    }
-                }
-            }
-            if (SPELL_DIR.exists()) {
-                for (File f : SPELL_DIR.listFiles()) {
-                    SpellCard spell = JsonUtil.fromJson(new TypeToken<SpellCard>(){}, f);
-                    if (spell != null) {
-                        for (String info : spell.getCardInfo())
-                            System.out.println(info);
-
-                        System.out.println("###################################");
-                    }
-                }
-            }
-            if (TRAP_DIR.exists()) {
-                for (File f : TRAP_DIR.listFiles()) {
-                    TrapCard trap = JsonUtil.fromJson(new TypeToken<TrapCard>(){}, f);
-                    if (trap != null) {
-                        for (String info : trap.getCardInfo())
-                            System.out.println(info);
-
-                        System.out.println("###################################");
-                    }
-                }
-            }
-        }
         //OutputUtil.convertCSVToJson(new File("csvs/ygopro-datas.csv"), true, false, false);
         //OutputUtil.addCardInfo(new File("csvs/ygopro-texts.csv"), true, false, false);
         //OutputUtil.addCardId();
@@ -71,9 +36,6 @@ public class Test {
 //                    ScriptInternal.parse(trap.getScript());
 //                }
 //            }
-//        }
-//        else {
-//            System.out.println("Hello world!");
 //        }
     }
 }

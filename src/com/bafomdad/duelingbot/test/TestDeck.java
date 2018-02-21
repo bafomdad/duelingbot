@@ -12,8 +12,6 @@ public class TestDeck extends Deck {
     public TestDeck(IUser owner) {
 
         super(owner);
-        WrapperUtil.add(this, "barrel_dragon.json");
-        WrapperUtil.add(this, "raigeki.json");
-        WrapperUtil.add(this, "windstorm_of_etaqua.json");
+        this.loadDeck();
     }
 }

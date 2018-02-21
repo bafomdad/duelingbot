@@ -1,8 +1,7 @@
 package com.bafomdad.duelingbot.commands;
 
 import com.bafomdad.duelingbot.DuelingBot;
-import com.bafomdad.duelingbot.api.ICommand;
-import com.bafomdad.duelingbot.cards.ICard;
+import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.utils.MessageUtil;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;

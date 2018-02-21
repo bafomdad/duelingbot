@@ -1,15 +1,12 @@
 package com.bafomdad.duelingbot.internal;
 
-import com.bafomdad.duelingbot.cards.ICard;
+import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.enums.CardTypes;
 import com.bafomdad.duelingbot.enums.DuelZone;
 import com.bafomdad.duelingbot.enums.EnumProperty;
-import com.bafomdad.duelingbot.test.TestDeck;
-import com.bafomdad.duelingbot.utils.WrapperUtil;
 import sx.blah.discord.handle.obj.IUser;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by bafomdad on 1/17/2018.

@@ -1,19 +1,15 @@
 package com.bafomdad.duelingbot.utils;
 
 import com.bafomdad.duelingbot.api.IDuelingBot;
-import com.bafomdad.duelingbot.cards.ICard;
-import com.bafomdad.duelingbot.cards.MonsterCard;
-import com.bafomdad.duelingbot.enums.CardTypes;
+import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.internal.Deck;
 import com.bafomdad.duelingbot.internal.PlayingField;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
-import sx.blah.discord.util.AttachmentPartEntry;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.MessageBuilder;
 import sx.blah.discord.util.RequestBuffer;
 
-import java.io.ByteArrayInputStream;
 import java.util.List;
 
 /**
