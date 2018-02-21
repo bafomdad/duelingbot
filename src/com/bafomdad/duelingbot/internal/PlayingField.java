@@ -20,7 +20,7 @@ public class PlayingField {
     private Hand playerHand;
     private Graveyard graveyard;
     private Banished banished;
-    private ExtraDeck extraDeck;
+//    private ExtraDeck extraDeck;
 
     private FieldObject[] fieldZone = new FieldObject[1];
     private FieldObject[] monsterZone = new FieldObject[5];
@@ -41,7 +41,7 @@ public class PlayingField {
         playerHand = new Hand(this.owner);
         graveyard = new Graveyard(this.owner);
         banished = new Banished(this.owner);
-        extraDeck = new ExtraDeck(this.owner);
+ //       extraDeck = new ExtraDeck(this.owner);
     }
 
     public IUser getOwner() {
@@ -66,7 +66,7 @@ public class PlayingField {
 
     public ExtraDeck getExtraDeck() {
 
-        return extraDeck;
+        return playerDeck.getExtraDeck();
     }
 
     public Hand getPlayerHand() {

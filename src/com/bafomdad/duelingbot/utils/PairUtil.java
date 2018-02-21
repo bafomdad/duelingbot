@@ -3,39 +3,24 @@ package com.bafomdad.duelingbot.utils;
 /**
  * Created by bafomdad on 2/12/2018.
  */
-public class PairUtil<K, V> {
+public class PairUtil {
 
-    private final K left;
-    private final V right;
+    private final int x;
+    private final int y;
 
-    public static <K, V> PairUtil<K, V> createPair(K left, V right) {
+    public PairUtil(int x, int y) {
 
-        return new PairUtil<K, V>(left, right);
+        this.x = x;
+        this.y = y;
     }
 
-    public PairUtil(K left, V right) {
+    public int getX() {
 
-        this.left = left;
-        this.right = right;
+        return x;
     }
 
-    public K getX() {
+    public int getY() {
 
-        return left;
-    }
-
-    public V getY() {
-
-        return right;
-    }
-
-    public K getLeft() {
-
-        return left;
-    }
-
-    public V getRight() {
-
-        return right;
+        return y;
     }
 }

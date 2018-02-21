@@ -1,12 +1,9 @@
 package com.bafomdad.duelingbot.utils;
 
-import com.bafomdad.duelingbot.api.IPosition;
-import com.bafomdad.duelingbot.internal.Deck;
-import com.bafomdad.duelingbot.internal.FieldObject;
-import com.bafomdad.duelingbot.internal.PlayingField;
+import com.bafomdad.duelingbot.api.ICard;
+import com.bafomdad.duelingbot.internal.*;
 
 import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -47,6 +44,9 @@ public class ImageUtil {
             drawSpellZone(g, pf);
             drawSpellField(g, pf);
             drawDeck(g, pf);
+            drawExtraDeck(g, pf);
+            drawGraveyard(g, pf);
+            drawBanished(g, pf);
             g.dispose();
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -60,8 +60,26 @@ public class ImageUtil {
         return null;
     }
 
-    private static void drawCard(Graphics g, IPosition position) {
+    private static File getImage(ICard card) {
 
+        switch (card.getCardType()) {
+            case MONSTER: switch(card.getProperty()) {
+                case EFFECT_FUSION: return FUSIONMONSTER;
+                case FUSION_MONSTER: return FUSIONMONSTER;
+                case EFFECT_MONSTER: return EFFECTMONSTER;
+                case FLIP_EFFECT: return EFFECTMONSTER;
+                case RITUAL_MONSTER: return RITUALMONSTER;
+                case EFFECT_RITUAL: return RITUALMONSTER;
+                case GEMINI_MONSTER: return EFFECTMONSTER;
+                case TOON_MONSTER: return EFFECTMONSTER;
+                case UNION_MONSTER: return EFFECTMONSTER;
+                case SPIRIT_MONSTER: return EFFECTMONSTER;
+                default: return NORMALMONSTER;
+            }
+            case SPELL: return SPELLCARD;
+            case TRAP: return TRAPCARD;
+            default: return CARDBACK;
+        }
     }
 
     private static void drawMonsterZone(Graphics g, PlayingField pf) throws IOException {
@@ -72,15 +90,15 @@ public class ImageUtil {
             if (obj.getCard() != null) {
                 if (obj.isFaceDown()) {
                     if (obj.isDefensePosition())
-                        g.drawImage(rotate(cardDefault), 8 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY() + 3, null);
+                        g.drawImage(rotate(cardDefault), 8 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY() + 3, null);
                     else
-                        g.drawImage(cardDefault, 12 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY(), null);
+                        g.drawImage(cardDefault, 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null);
                 } else {
-                    BufferedImage monster = create(NORMALMONSTER);
+                    BufferedImage monster = create(getImage(obj.getCard()));
                     if (obj.isDefensePosition())
-                        g.drawImage(rotate(monster), 8 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY() + 3, null);
+                        g.drawImage(rotate(monster), 8 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY() + 3, null);
                     else
-                        g.drawImage(monster, 12 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY(), null);
+                        g.drawImage(monster, 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null);
                 }
             }
         }
@@ -93,12 +111,13 @@ public class ImageUtil {
             FieldObject obj = objs[i - 1];
             if (obj.getCard() != null) {
                 if (obj.isFaceDown()) {
-                    g.drawImage(cardDefault, 12 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY(), null);
+                    g.drawImage(cardDefault, 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null);
                 } else {
-                    switch (obj.getCard().getCardType()) {
-                        case TRAP: g.drawImage(create(TRAPCARD), 12 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY(), null);
-                        case SPELL: g.drawImage(create(SPELLCARD), 12 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY(), null);
-                    }
+                    g.drawImage(create(getImage(obj.getCard())), 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null);
+//                    switch (obj.getCard().getCardType()) {
+//                        case TRAP: g.drawImage(create(TRAPCARD), 12 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY(), null);
+//                        case SPELL: g.drawImage(create(SPELLCARD), 12 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY(), null);
+//                    }
                 }
             }
         }
@@ -109,9 +128,9 @@ public class ImageUtil {
         FieldObject obj = pf.getFieldZone()[0];
         if (obj.getCard() != null) {
             if (obj.isFaceDown()) {
-                g.drawImage(cardDefault, (int)obj.getPosition().getX(), (int)obj.getPosition().getY(), null);
+                g.drawImage(cardDefault, obj.getPosition().getX(), obj.getPosition().getY(), null);
             } else {
-                g.drawImage(create(SPELLCARD), (int)obj.getPosition().getX(), (int)obj.getPosition().getY(), null);
+                g.drawImage(create(SPELLCARD), obj.getPosition().getX(), obj.getPosition().getY(), null);
             }
         }
     }
@@ -119,8 +138,33 @@ public class ImageUtil {
     private static void drawDeck(Graphics g, PlayingField pf) throws IOException {
 
         Deck deck = pf.getPlayerDeck();
-        if (!deck.getDeck().isEmpty() && !deck.isConvulsed())
-            g.drawImage(cardDefault, (int)deck.getPosition().getX(), (int)deck.getPosition().getY(), null);
+        if (!deck.getDeck().isEmpty()) {
+            if (!deck.isConvulsed())
+                g.drawImage(cardDefault, deck.getPosition().getX(), deck.getPosition().getY(), null);
+            else
+                g.drawImage(create(getImage(deck.getDeck().get(0))), deck.getPosition().getX(), deck.getPosition().getY(), null);
+        }
+    }
+
+    private static void drawExtraDeck(Graphics g, PlayingField pf) throws IOException {
+
+        ExtraDeck extra = pf.getExtraDeck();
+        if (!extra.getExtraDeck().isEmpty())
+            g.drawImage(cardDefault, extra.getPosition().getX(), extra.getPosition().getY(), null);
+    }
+
+    private static void drawGraveyard(Graphics g, PlayingField pf) throws IOException {
+
+        Graveyard graveyard = pf.getGraveyard();
+        if (!graveyard.getGraveyard().isEmpty())
+            g.drawImage(create(getImage(graveyard.getGraveyard().get(0))), graveyard.getPosition().getX(), graveyard.getPosition().getY(), null);
+    }
+
+    private static void drawBanished(Graphics g, PlayingField pf) throws IOException {
+
+        Banished banished = pf.getBanished();
+        if (!banished.getBanished().isEmpty())
+            g.drawImage(create(getImage(banished.getBanished().get(0))), banished.getPosition().getX(), banished.getPosition().getY(), null);
     }
 
     private static BufferedImage create(File f) throws IOException {

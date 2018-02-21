@@ -5,7 +5,6 @@ package com.bafomdad.duelingbot.enums;
  */
 public enum DuelPhase {
 
-    BEGIN,
     DRAW,
     STANDBY,
     FIRST,

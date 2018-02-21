@@ -23,11 +23,13 @@ public class Deck implements IPosition {
     private boolean convulsed = false;
 
     private List<ICard> playerDeck = new ArrayList();
+    private ExtraDeck extraDeck;
 
     public Deck(IUser owner) {
 
         this.owner = owner;
         this.loadDeck();
+        this.loadExtraDeck();
     }
 
     public boolean canPlay() {
@@ -107,5 +109,21 @@ public class Deck implements IPosition {
         for (String s : cardList) {
             WrapperUtil.add(this, s);
         }
+    }
+
+    public void loadExtraDeck() {
+
+        extraDeck = new ExtraDeck(owner);
+        for (ICard card : playerDeck) {
+            switch (card.getProperty()) {
+                case FUSION_MONSTER: extraDeck.addCard(card); playerDeck.remove(card);
+                case EFFECT_FUSION: extraDeck.addCard(card); playerDeck.remove(card);
+            }
+        }
+    }
+
+    public ExtraDeck getExtraDeck() {
+
+        return extraDeck;
     }
 }
