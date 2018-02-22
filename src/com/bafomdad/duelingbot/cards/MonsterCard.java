@@ -23,8 +23,6 @@ public class MonsterCard extends ACard {
     private String race;
     private boolean hasEffect;
 
-    public MonsterCard() {}
-
     public MonsterCard(String name, String desc, String property, int attack, int defense, int level, String attribute, String race, boolean hasEffect) {
 
         this.cardName = name;
@@ -99,7 +97,6 @@ public class MonsterCard extends ACard {
         list.add("Type: " + getRace().getName());
         list.add(getStats());
         list.add(getCardDescription());
-        //list.add(hasEffect ? "EFFECTS: " + getCardDescription() : getCardDescription());
 
         return list;
     }

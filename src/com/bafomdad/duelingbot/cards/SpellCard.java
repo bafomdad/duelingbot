@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class SpellCard extends ACard {
 
-    public SpellCard() {}
-
     public SpellCard(String name, String desc, String property) {
 
         this.cardName = name;

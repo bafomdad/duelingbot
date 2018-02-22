@@ -152,9 +152,19 @@ public class PlayingField {
         this.currentPhase++;
     }
 
+    public void resetPhase() {
+
+        this.currentPhase = 0;
+    }
+
     public void setPhase(DuelPhase phase) {
 
         this.currentPhase = phase.ordinal();
+    }
+
+    public void setFirstTurn() {
+
+        this.currentPhase = 1;
     }
 
     public DuelPhase getCurrentPhase() {

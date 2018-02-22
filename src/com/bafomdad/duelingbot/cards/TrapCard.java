@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class TrapCard extends ACard {
 
-    public TrapCard() {}
-
     public TrapCard(String name, String desc, String property) {
 
         this.cardName = name;
