@@ -29,7 +29,8 @@ public enum EnumProperty {
     TUNER_MONSTER("Tuner Monster"),
     GEMINI_MONSTER("Gemini Monster"),
     UNION_MONSTER("Union Monster"),
-    TOON_MONSTER("Toon Monster");
+    TOON_MONSTER("Toon Monster"),
+    TOKEN_MONSTER("Token");
 
     final String name;
 

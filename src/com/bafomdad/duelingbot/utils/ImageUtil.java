@@ -27,6 +27,7 @@ public class ImageUtil {
     private static final File EFFECTMONSTER = new File(DIR + "cardEffectMonster.png");
     private static final File FUSIONMONSTER = new File(DIR + "cardFusionMonster.png");
     private static final File RITUALMONSTER = new File(DIR + "cardRitualMonster.png");
+    private static final File TOKENMONSTER = new File(DIR + "cardTokenMonster.png");
 
     private static BufferedImage cardDefault = null;
 
@@ -74,6 +75,7 @@ public class ImageUtil {
                 case TOON_MONSTER: return EFFECTMONSTER;
                 case UNION_MONSTER: return EFFECTMONSTER;
                 case SPIRIT_MONSTER: return EFFECTMONSTER;
+                case TOKEN_MONSTER: return TOKENMONSTER;
                 default: return NORMALMONSTER;
             }
             case SPELL: return SPELLCARD;

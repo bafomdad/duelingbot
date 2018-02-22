@@ -10,6 +10,18 @@ public abstract class Phase implements IPhase {
 
     public static class Draw extends Phase {
 
+        private boolean canDraw = true;
+
+        public boolean canDraw() {
+
+            return canDraw;
+        }
+
+        public void setDraw(boolean flag) {
+
+            this.canDraw = flag;
+        }
+
         @Override
         public DuelPhase getPhase() {
 

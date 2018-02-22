@@ -82,7 +82,8 @@ public class Deck implements IPosition {
     public void setConvulsed(boolean flag) {
 
         this.convulsed = flag;
-        Collections.reverse(playerDeck);
+        if (flag != this.convulsed)
+            Collections.reverse(playerDeck);
     }
 
     @Override

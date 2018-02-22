@@ -103,4 +103,9 @@ public class MonsterCard extends ACard {
 
         return list;
     }
+
+    public static MonsterCard Tokenize(String name, String race, String attribute, int level, int attack, int defense) {
+
+        return new MonsterCard(name, "", "Token", attack, defense, level, attribute, race, false);
+    }
 }

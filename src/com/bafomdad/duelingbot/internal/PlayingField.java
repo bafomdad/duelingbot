@@ -2,6 +2,7 @@ package com.bafomdad.duelingbot.internal;
 
 import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.enums.CardTypes;
+import com.bafomdad.duelingbot.enums.DuelPhase;
 import com.bafomdad.duelingbot.enums.DuelZone;
 import com.bafomdad.duelingbot.enums.EnumProperty;
 import sx.blah.discord.handle.obj.IUser;
@@ -15,12 +16,12 @@ public class PlayingField {
 
     private IUser owner;
     private int lifePoints = 8000;
+    private int currentPhase = 0;
 
     private Deck playerDeck;
     private Hand playerHand;
     private Graveyard graveyard;
     private Banished banished;
-//    private ExtraDeck extraDeck;
 
     private FieldObject[] fieldZone = new FieldObject[1];
     private FieldObject[] monsterZone = new FieldObject[5];
@@ -144,5 +145,20 @@ public class PlayingField {
             }
         }
         return false;
+    }
+
+    public void advancePhase() {
+
+        this.currentPhase++;
+    }
+
+    public void setPhase(DuelPhase phase) {
+
+        this.currentPhase = phase.ordinal();
+    }
+
+    public DuelPhase getCurrentPhase() {
+
+        return DuelPhase.values()[currentPhase];
     }
 }
