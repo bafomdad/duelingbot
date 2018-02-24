@@ -1,0 +1,8 @@
+spells/
+monsters/
+traps/
+out/
+.idea/
+libs/
+build/
+config.json
