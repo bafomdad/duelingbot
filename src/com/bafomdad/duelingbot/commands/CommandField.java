@@ -32,7 +32,10 @@ public class CommandField extends ACommand {
             MessageUtil.send(DuelingBot.INSTANCE, channel, "You are currently not in a duel.");
             return;
         }
-        PlayingField pf = DuelingBot.INSTANCE.getCurrentDuel().getPlayingField(sender);
-        MessageUtil.updateField(DuelingBot.INSTANCE, channel, pf);
+        for (PlayingField pf : DuelingBot.INSTANCE.getCurrentDuel().getPlayers()) {
+            MessageUtil.updateField(DuelingBot.INSTANCE, channel, pf);
+        }
+//        PlayingField pf = DuelingBot.INSTANCE.getCurrentDuel().getPlayingField(sender);
+//        MessageUtil.updateField(DuelingBot.INSTANCE, channel, pf);
     }
 }

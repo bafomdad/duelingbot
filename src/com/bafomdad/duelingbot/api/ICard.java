@@ -2,6 +2,7 @@ package com.bafomdad.duelingbot.api;
 
 import com.bafomdad.duelingbot.enums.CardTypes;
 import com.bafomdad.duelingbot.enums.EnumProperty;
+import sx.blah.discord.handle.obj.IUser;
 
 import java.util.List;
 
@@ -21,4 +22,8 @@ public interface ICard {
     public String getCardId();
 
     public int getCardLimit();
+
+    public IUser getOriginalOwner();
+
+    public void setOriginalOwner(IUser user);
 }

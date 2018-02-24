@@ -63,6 +63,7 @@ public class CommandDuel extends ACommand {
                 }
                 MessageUtil.send(DuelingBot.INSTANCE, channel, "Duel has started. Participants: " + sender.mention() + " and " + user.mention());
                 DuelingBot.INSTANCE.getCurrentDuel().startDuel();
+                MessageUtil.send(DuelingBot.INSTANCE, channel, "Player " + DuelingBot.INSTANCE.getCurrentDuel().getPlayingTurn().getOwner().getName() + " takes first turn.");
             }
         }
     }

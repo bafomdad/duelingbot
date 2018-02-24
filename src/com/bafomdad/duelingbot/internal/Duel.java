@@ -1,8 +1,12 @@
 package com.bafomdad.duelingbot.internal;
 
+import com.bafomdad.duelingbot.api.ICondition;
+import com.bafomdad.duelingbot.utils.MinigameUtil;
 import sx.blah.discord.handle.obj.IUser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by bafomdad on 2/9/2018.
@@ -10,9 +14,10 @@ import java.util.Arrays;
 public class Duel {
 
     PlayingField[] players = new PlayingField[2];
+    List<DuelCondition> duelConditions = new ArrayList();
 
     private boolean isDueling = false;
-    private int turns = 0;
+    private int currentPlayer = 0;
 
     public Duel() {}
 
@@ -66,6 +71,11 @@ public class Duel {
         return null;
     }
 
+    public PlayingField[] getPlayers() {
+
+        return players;
+    }
+
     public boolean canStartDuel() {
 
         for (PlayingField pf : players) {
@@ -81,9 +91,10 @@ public class Duel {
             pf.getPlayerDeck().shuffle();
             for (int i = 0; i < pf.getPlayerHand().DRAW_HAND; i++) {
                 pf.getPlayerHand().add(pf.getPlayerDeck().draw());
-                isDueling = true;
             }
         }
+        isDueling = true;
+        setFirstTurn();
     }
 
     public void stopDuel() {
@@ -100,5 +111,29 @@ public class Duel {
     public boolean isDueling(IUser user) {
 
         return playerExists(user) && isDueling;
+    }
+
+    public PlayingField getPlayingTurn() {
+
+        return players[currentPlayer];
+    }
+
+    private void setFirstTurn() {
+
+        int rollX = MinigameUtil.rollDice();
+        int rollY = MinigameUtil.rollDice();
+
+        if (rollX == rollY) {
+            setFirstTurn();
+            return;
+        }
+        boolean flag = rollX > rollY;
+        this.currentPlayer = (flag) ? 1 : 0;
+        getPlayingTurn().setFirstTurn();
+    }
+
+    private List<DuelCondition> getConditions() {
+
+        return duelConditions;
     }
 }

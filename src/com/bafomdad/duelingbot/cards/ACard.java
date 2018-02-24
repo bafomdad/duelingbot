@@ -1,7 +1,9 @@
 package com.bafomdad.duelingbot.cards;
 
 import com.bafomdad.duelingbot.api.ICard;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import sx.blah.discord.handle.obj.IUser;
 
 import java.util.List;
 
@@ -20,6 +22,8 @@ public abstract class ACard implements ICard {
     private String cardId;
     @SerializedName("property")
     protected String cardProperty;
+    @Expose(serialize = false, deserialize = false)
+    private IUser original;
 
     public ACard() {}
 
@@ -67,5 +71,17 @@ public abstract class ACard implements ICard {
     public int getCardLimit() {
 
         return 3;
+    }
+
+    @Override
+    public IUser getOriginalOwner() {
+
+        return original;
+    }
+
+    @Override
+    public void setOriginalOwner(IUser user) {
+
+        this.original = user;
     }
 }

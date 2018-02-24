@@ -4,6 +4,7 @@ import com.bafomdad.duelingbot.api.IDuelingBot;
 import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.internal.Deck;
 import com.bafomdad.duelingbot.internal.PlayingField;
+import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
@@ -26,7 +27,7 @@ public class MessageUtil {
     public static void sendWithReaction(IDuelingBot chat, IChannel channel, String message, String reaction) {
 
         RequestBuffer.request(() ->
-        new MessageBuilder(chat.getClient()).withChannel(channel).withContent(message).build().addReaction(reaction));
+        new MessageBuilder(chat.getClient()).withChannel(channel).withContent(message).build().addReaction(ReactionEmoji.of(reaction)));
     }
 
     public static void sendPrivate(IDuelingBot chat, IUser user, String message) {

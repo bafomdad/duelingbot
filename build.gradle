@@ -19,5 +19,13 @@ repositories {
 }
 
 dependencies {
-    compile "com.github.austinv11:Discord4j:2.9.3"
+//    compile "com.github.austinv11:Discord4j:2.9.3"
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ["$projectDir/src"]
+        }
+    }
 }
