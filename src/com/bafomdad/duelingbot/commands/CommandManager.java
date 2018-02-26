@@ -26,7 +26,6 @@ public class CommandManager {
         register(new CommandDraw());
         register(new CommandEdit());
         register(new CommandPlay());
-        register(new CommandReact());
     }
 
     public void register(ICommand command) {

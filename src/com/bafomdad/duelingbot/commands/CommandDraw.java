@@ -3,6 +3,7 @@ package com.bafomdad.duelingbot.commands;
 import com.bafomdad.duelingbot.DuelingBot;
 import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.enums.DuelPhase;
+import com.bafomdad.duelingbot.handlers.PhaseHandler;
 import com.bafomdad.duelingbot.internal.Duel;
 import com.bafomdad.duelingbot.utils.MessageUtil;
 import sx.blah.discord.handle.obj.IChannel;
@@ -41,5 +42,6 @@ public class CommandDraw extends ACommand {
         MessageUtil.send(DuelingBot.INSTANCE, channel, sender.getName() + " draws a card.");
         ICard card = currentDuel.getPlayingTurn().getPlayerDeck().draw();
         currentDuel.getPlayingTurn().getPlayerHand().add(card);
+        PhaseHandler.cyclePhases(channel);
     }
 }

@@ -131,6 +131,14 @@ public class Duel {
         return players[currentPlayer];
     }
 
+    public void changeTurns() {
+
+        if (currentPlayer == 0)
+            currentPlayer++;
+        else
+            currentPlayer--;
+    }
+
     private void setFirstTurn() {
 
         int rollX = MinigameUtil.rollDice();
