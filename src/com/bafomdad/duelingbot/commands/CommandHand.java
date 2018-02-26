@@ -39,6 +39,6 @@ public class CommandHand extends ACommand {
             MessageUtil.sendPrivate(DuelingBot.INSTANCE, sender, "You currently have no cards in your hand.");
             return;
         }
-        MessageUtil.sendPrivate(DuelingBot.INSTANCE, sender, Arrays.asList(hand.displayHand()).toString());
+        MessageUtil.showHand(DuelingBot.INSTANCE, channel, sender, hand);
     }
 }

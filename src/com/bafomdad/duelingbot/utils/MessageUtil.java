@@ -1,11 +1,14 @@
 package com.bafomdad.duelingbot.utils;
 
+import com.bafomdad.duelingbot.DuelingBot;
 import com.bafomdad.duelingbot.api.IDuelingBot;
 import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.internal.Deck;
+import com.bafomdad.duelingbot.internal.Hand;
 import com.bafomdad.duelingbot.internal.PlayingField;
 import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.MessageBuilder;
@@ -24,10 +27,18 @@ public class MessageUtil {
         new MessageBuilder(chat.getClient()).withChannel(channel).withContent(message).build());
     }
 
-    public static void sendWithReaction(IDuelingBot chat, IChannel channel, String message, String reaction) {
+    public static void sendWithReaction(IDuelingBot chat, IChannel channel, String message, String... reactions) {
 
-        RequestBuffer.request(() ->
-        new MessageBuilder(chat.getClient()).withChannel(channel).withContent(message).build().addReaction(ReactionEmoji.of(reaction)));
+        RequestBuffer.RequestFuture<IMessage> request = RequestBuffer.request((RequestBuffer.IRequest<IMessage>) () ->
+                new MessageBuilder(chat.getClient()).withChannel(channel).withContent(message).build());
+        if (reactions.length == 1) {
+            request.get().addReaction(ReactionEmoji.of(reactions[0]));
+            DuelingBot.INSTANCE.setDuelQueue(request.get().getLongID());
+        }
+        else {
+            for (String react : reactions)
+                request.get().addReaction(ReactionEmoji.of(react));
+        }
     }
 
     public static void sendPrivate(IDuelingBot chat, IUser user, String message) {
@@ -63,8 +74,32 @@ public class MessageUtil {
         builder.withTitle("Dueling Field");
         builder.appendField("Duelist", "Life Points", true);
         builder.appendField(pf.getOwner().getDisplayName(channel.getGuild()), String.valueOf(pf.getLifePoints()), true);
+        builder.appendField("Hand", "Deck", true);
+        builder.appendField(String.valueOf(pf.getPlayerHand().getHand().size()), String.valueOf(pf.getPlayerDeck().getDeck().size()), true);
 
         RequestBuffer.request(() -> channel.sendFile(builder.build(), ImageUtil.getField(pf), "field.png"));
+    }
+
+    public static void showHand(IDuelingBot chat, IChannel channel, IUser user, Hand hand) {
+
+        List<ICard> cardList = hand.getHand();
+        EmbedBuilder builder = new EmbedBuilder();
+
+        builder.withColor(110, 150, 190);
+        builder.withTitle(user.getName() + "'s hand");
+        for (int i = 0; i < cardList.size(); i++) {
+            builder.appendDesc(i + ": " + cardList.get(i).getCardName());
+        }
+        if (hand.isVisibleToOpponent()) {
+            RequestBuffer.request(() ->
+                channel.sendMessage(builder.build()));
+            return;
+        }
+        else {
+            RequestBuffer.request(() ->
+                user.getOrCreatePMChannel().sendMessage(builder.build()));
+            return;
+        }
     }
 
     public static void showCard(IDuelingBot chat, IUser user, ICard card) {

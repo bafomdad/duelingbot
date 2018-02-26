@@ -206,4 +206,9 @@ public enum Actionable {
     };
 
     public abstract boolean apply(PlayingField pf, ICard card);
+
+    public boolean checkConditions(ICard card) {
+
+        return true;
+    }
 }

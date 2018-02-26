@@ -24,6 +24,7 @@ public class DuelingBot implements IDuelingBot {
 
     private IDiscordClient client;
     private CommandManager commandManager;
+    private long duelQueue = -1;
 
     public DuelingBot(IDiscordClient client) {
 
@@ -69,5 +70,15 @@ public class DuelingBot implements IDuelingBot {
     public Duel getCurrentDuel() {
 
         return currentDuel;
+    }
+
+    public void setDuelQueue(long id) {
+
+        duelQueue = id;
+    }
+
+    public long getDuelQueue() {
+
+        return duelQueue;
     }
 }

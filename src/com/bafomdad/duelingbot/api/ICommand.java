@@ -14,4 +14,6 @@ public interface ICommand {
     public Permissions getMinimumPermission();
 
     public void execute(String[] args, IUser sender, IChannel channel);
+
+    public boolean deleteCommandMessage();
 }

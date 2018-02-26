@@ -2,6 +2,8 @@ package com.bafomdad.duelingbot.commands;
 
 import com.bafomdad.duelingbot.DuelingBot;
 import com.bafomdad.duelingbot.api.ICard;
+import com.bafomdad.duelingbot.enums.DuelPhase;
+import com.bafomdad.duelingbot.internal.Duel;
 import com.bafomdad.duelingbot.utils.MessageUtil;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
@@ -31,8 +33,13 @@ public class CommandDraw extends ACommand {
             MessageUtil.send(DuelingBot.INSTANCE, channel, "You are currently not in a duel.");
             return;
         }
+        Duel currentDuel = DuelingBot.INSTANCE.getCurrentDuel();
+        if (currentDuel.getPlayingTurn().getCurrentPhase() != DuelPhase.DRAW) {
+            MessageUtil.send(DuelingBot.INSTANCE, channel, "You are not in the draw phase.");
+            return;
+        }
         MessageUtil.send(DuelingBot.INSTANCE, channel, sender.getName() + " draws a card.");
-        ICard card = DuelingBot.INSTANCE.getCurrentDuel().getPlayingField(sender).getPlayerDeck().draw();
-        DuelingBot.INSTANCE.getCurrentDuel().getPlayingField(sender).getPlayerHand().add(card);
+        ICard card = currentDuel.getPlayingTurn().getPlayerDeck().draw();
+        currentDuel.getPlayingTurn().getPlayerHand().add(card);
     }
 }

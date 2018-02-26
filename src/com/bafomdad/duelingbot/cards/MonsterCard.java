@@ -86,6 +86,15 @@ public class MonsterCard extends ACard {
         return "ATK: " + this.attack + "/ DEF: " + this.defense;
     }
 
+    public int getTributeSummon() {
+
+        if (level <= 4) return 0;
+
+        if (level > 4 && level < 7) return 1;
+
+        return 3;
+    }
+
     @Override
     public List<String> getCardInfo() {
 

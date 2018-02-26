@@ -1,6 +1,7 @@
 package com.bafomdad.duelingbot.internal;
 
 import com.bafomdad.duelingbot.api.ICondition;
+import com.bafomdad.duelingbot.enums.DuelPhase;
 import com.bafomdad.duelingbot.utils.MinigameUtil;
 import sx.blah.discord.handle.obj.IUser;
 
@@ -28,6 +29,18 @@ public class Duel {
             if (pf == null) {
                 pf = new PlayingField(player);
                 players[i] = pf;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removePlayer(IUser player) {
+
+        for (int i = 0; i < players.length; i++) {
+            PlayingField pf = players[i];
+            if (pf.getOwner().equals(player)) {
+                players[i] = null;
                 return true;
             }
         }
@@ -129,7 +142,7 @@ public class Duel {
         }
         boolean flag = rollX > rollY;
         this.currentPlayer = (flag) ? 1 : 0;
-        getPlayingTurn().setFirstTurn();
+        getPlayingTurn().setPhase(DuelPhase.DRAW);
     }
 
     private List<DuelCondition> getConditions() {

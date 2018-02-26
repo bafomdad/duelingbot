@@ -19,4 +19,10 @@ public abstract class ASubCommand implements ICommand {
 
         return getName();
     }
+
+    @Override
+    public boolean deleteCommandMessage() {
+
+        return false;
+    }
 }

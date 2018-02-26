@@ -40,15 +40,6 @@ public class Hand {
         playerHand.remove(card);
     }
 
-    public String[] displayHand() {
-
-        String[] list = new String[getHand().size()];
-        for (int i = 0; i < list.length; i++) {
-            list[i] = getHand().get(i).getCardName();
-        }
-        return list;
-    }
-
     public boolean isVisibleToOpponent() {
 
         return isVisible;

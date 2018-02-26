@@ -3,13 +3,15 @@ package com.bafomdad.duelingbot.events;
 import com.bafomdad.duelingbot.DuelingBot;
 import com.bafomdad.duelingbot.api.ICommand;
 import com.bafomdad.duelingbot.commands.CommandManager;
+import com.bafomdad.duelingbot.internal.Duel;
 import com.bafomdad.duelingbot.utils.MessageUtil;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionAddEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionRemoveEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.util.MessageBuilder;
 
 /**
  * Created by bafomdad on 1/15/2018.
@@ -22,6 +24,43 @@ public class EventListener {
         for (IChannel channel : event.getClient().getChannels()) {
             if (channel.getName().equals(DuelingBot.config.getChannel()))
                 MessageUtil.send(DuelingBot.INSTANCE, channel, "Dueling bot online!");
+        }
+    }
+
+    @EventSubscriber
+    public void onAddReaction(ReactionAddEvent event) {
+
+        //if (event.getReaction().getUsers().get(0).equals(event.getAuthor())) return;
+
+        if (event.getChannel().getName().equals(DuelingBot.config.getChannel()) && event.getReaction().getEmoji().getName().equals("cardBack")) {
+            if (event.getMessageID() == DuelingBot.INSTANCE.getDuelQueue()) {
+                Duel currentDuel = DuelingBot.INSTANCE.getCurrentDuel();
+                currentDuel.addPlayer(event.getUser());
+                String player1 = (currentDuel.getPlayers()[0] != null) ? currentDuel.getPlayers()[0].getOwner().getName() : "[Empty]";
+                String player2 = (currentDuel.getPlayers()[1] != null) ? currentDuel.getPlayers()[1].getOwner().getName() : "[Empty]";
+                event.getMessage().edit("A duel has been queued up. Duelists: " + player1 + " / " + player2);
+                if (currentDuel.canPlay() && currentDuel.canStartDuel()) {
+                    MessageUtil.send(DuelingBot.INSTANCE, event.getChannel(), "The duel has started. Players: " + player1 + "/ " + player2);
+                    event.getChannel().getMessageByID(DuelingBot.INSTANCE.getDuelQueue()).delete();
+                    MessageUtil.send(DuelingBot.INSTANCE, event.getChannel(), currentDuel.getPlayingTurn().getOwner().getName() + " has first turn.");
+                }
+            }
+        }
+    }
+
+    @EventSubscriber
+    public void onRemoveReaction(ReactionRemoveEvent event) {
+
+        if (!event.getReaction().getUsers().get(0).equals(event.getAuthor())) return;
+
+        if (event.getChannel().getName().equals(DuelingBot.config.getChannel()) && event.getReaction().getEmoji().getName().equals("cardBack")) {
+            if (event.getMessageID() == DuelingBot.INSTANCE.getDuelQueue()) {
+                Duel currentDuel = DuelingBot.INSTANCE.getCurrentDuel();
+                currentDuel.removePlayer(event.getUser());
+                String player1 = (currentDuel.getPlayers()[0] != null) ? currentDuel.getPlayers()[0].getOwner().getName() : "[Empty]";
+                String player2 = (currentDuel.getPlayers()[1] != null) ? currentDuel.getPlayers()[1].getOwner().getName() : "[Empty]";
+                event.getMessage().edit("A duel has been queued up. Duelists: " + player1 + " / " + player2);
+            }
         }
     }
 
@@ -52,6 +91,8 @@ public class EventListener {
                 if (!commands.hasPermission(command, event.getAuthor(), event.getGuild())) return;
 
                 command.execute(splitter, event.getAuthor(), event.getChannel());
+                if (command.deleteCommandMessage())
+                    message.delete();
                 return;
             }
         }

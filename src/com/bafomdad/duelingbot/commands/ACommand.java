@@ -7,5 +7,9 @@ import com.bafomdad.duelingbot.api.ICommand;
  */
 public abstract class ACommand implements ICommand {
 
-    public ACommand() {}
+    @Override
+    public boolean deleteCommandMessage() {
+
+        return false;
+    }
 }

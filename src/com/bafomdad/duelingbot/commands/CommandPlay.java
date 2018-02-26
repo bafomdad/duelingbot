@@ -38,6 +38,12 @@ public class CommandPlay extends ACommand {
     }
 
     @Override
+    public boolean deleteCommandMessage() {
+
+        return true;
+    }
+
+    @Override
     public void execute(String[] args, IUser sender, IChannel channel) {
 
         if (!DuelingBot.INSTANCE.getCurrentDuel().isDueling(sender)) {
