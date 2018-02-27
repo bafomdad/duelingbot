@@ -3,7 +3,9 @@ package com.bafomdad.duelingbot.commands;
 import com.bafomdad.duelingbot.DuelingBot;
 import com.bafomdad.duelingbot.api.ICard;
 import com.bafomdad.duelingbot.api.ICommand;
+import com.bafomdad.duelingbot.enums.Actionable;
 import com.bafomdad.duelingbot.internal.Hand;
+import com.bafomdad.duelingbot.internal.PlayingField;
 import com.bafomdad.duelingbot.utils.MessageUtil;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
@@ -23,6 +25,8 @@ public class CommandPlay extends ACommand {
 
         subCommands.add(new Surrender());
         subCommands.add(new Set());
+        subCommands.add(new Flip());
+        subCommands.add(new Summon());
     }
 
     @Override
@@ -79,12 +83,12 @@ public class CommandPlay extends ACommand {
         }
     }
 
-    private class Set extends ASubCommand {
+    private class Summon extends ASubCommand {
 
         @Override
         public String getName() {
 
-            return "set";
+            return "summon";
         }
 
         @Override
@@ -101,10 +105,71 @@ public class CommandPlay extends ACommand {
                 return;
             }
             ICard card = hand.getHand().get(index);
-            boolean flag = DuelingBot.INSTANCE.getCurrentDuel().getPlayingField(sender).canSetCard(card);
+            boolean flag = Actionable.SUMMON.apply(DuelingBot.INSTANCE.getCurrentDuel().getPlayingField(sender), card);
+            if (flag) {
+                MessageUtil.send(DuelingBot.INSTANCE, channel, sender.getName() + " has summoned [" + card.getCardName() + "] onto the field.");
+                hand.discard(card);
+                return;
+            }
+        }
+    }
+
+    private class Set extends ASubCommand {
+
+        @Override
+        public String getName() {
+
+            return "set";
+        }
+
+        @Override
+        public void execute(String[] args, IUser sender, IChannel channel) {
+
+            if (args.length < 3) {
+                MessageUtil.sendPrivate(DuelingBot.INSTANCE, sender, "Proper arguments: !play set [index of card in hand]");
+                return;
+            }
+            int index = Integer.parseInt(args[2]);
+            Hand hand = DuelingBot.INSTANCE.getCurrentDuel().getPlayingField(sender).getPlayerHand();
+            if (index < 0 || index > hand.getHand().size()) {
+                MessageUtil.sendPrivate(DuelingBot.INSTANCE, sender, "Index not in range.");
+                return;
+            }
+            ICard card = hand.getHand().get(index);
+            boolean flag = Actionable.SET.apply(DuelingBot.INSTANCE.getCurrentDuel().getPlayingField(sender), card);
             if (flag) {
                 MessageUtil.send(DuelingBot.INSTANCE, channel, sender.getName() + " has set a card on the field.");
                 hand.discard(card);
+                return;
+            }
+        }
+    }
+
+    private class Flip extends ASubCommand {
+
+        @Override
+        public String getName() {
+
+            return "flip";
+        }
+
+        @Override
+        public void execute(String[] args, IUser sender, IChannel channel) {
+
+            if (args.length < 3) {
+                MessageUtil.sendPrivate(DuelingBot.INSTANCE, sender, "Proper arguments: !play flip [index of monster card on field]");
+                return;
+            }
+            int index = Integer.parseInt(args[2]);
+            PlayingField pf = DuelingBot.INSTANCE.getCurrentDuel().getPlayingField(sender);
+            if (index < 0 || index > pf.getMonsterZone().length) {
+                MessageUtil.sendPrivate(DuelingBot.INSTANCE, sender, "Index not in range.");
+                return;
+            }
+            ICard card = pf.getMonsterZone()[index].getCard();
+            boolean flag = Actionable.FLIP.apply(pf, new Integer(index));
+            if (flag) {
+                MessageUtil.send(DuelingBot.INSTANCE, channel, sender.getName() + " has flip summoned [" + card.getCardName() + "].");
                 return;
             }
         }

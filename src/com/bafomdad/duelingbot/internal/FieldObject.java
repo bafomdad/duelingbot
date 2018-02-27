@@ -2,6 +2,7 @@ package com.bafomdad.duelingbot.internal;
 
 import com.bafomdad.duelingbot.api.IPosition;
 import com.bafomdad.duelingbot.api.ICard;
+import com.bafomdad.duelingbot.enums.CardPosition;
 import com.bafomdad.duelingbot.enums.DuelZone;
 import com.bafomdad.duelingbot.utils.PairUtil;
 
@@ -14,8 +15,7 @@ public class FieldObject implements IPosition {
     private ICard equippedCard = null;
     private DuelZone zone = DuelZone.UNDEFINED;
 
-    private boolean faceDown;
-    private boolean defense;
+    private int position;
     private boolean specialSummon;
     private int counter = 0;
     private int attackCounter = 1;
@@ -41,35 +41,14 @@ public class FieldObject implements IPosition {
         this.zone = zone;
     }
 
-    public boolean isFaceDown() {
+    public CardPosition getCardPosition() {
 
-        return faceDown;
+        return CardPosition.values()[position];
     }
 
-    public boolean isDefensePosition() {
+    public void setCardPosition(CardPosition position) {
 
-        return defense;
-    }
-
-    public void setFaceDown() {
-
-        this.faceDown = true;
-    }
-
-    public void setFaceDownDefense() {
-
-        this.faceDown = true;
-        this.defense = true;
-    }
-
-    public void shiftPosition() {
-
-        this.defense = !defense;
-    }
-
-    public boolean isFacedownDefense() {
-
-        return faceDown && defense;
+        this.position = position.ordinal();
     }
 
     public boolean isEquipped() {

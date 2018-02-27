@@ -1,10 +1,7 @@
 package com.bafomdad.duelingbot.internal;
 
 import com.bafomdad.duelingbot.api.ICard;
-import com.bafomdad.duelingbot.enums.CardTypes;
-import com.bafomdad.duelingbot.enums.DuelPhase;
-import com.bafomdad.duelingbot.enums.DuelZone;
-import com.bafomdad.duelingbot.enums.EnumProperty;
+import com.bafomdad.duelingbot.enums.*;
 import sx.blah.discord.handle.obj.IUser;
 
 import java.util.Arrays;
@@ -125,7 +122,7 @@ public class PlayingField {
             ICard loopCard = monsterZone[i].getCard();
             if (loopCard == null) {
                 monsterZone[i] = new FieldObject(card, DuelZone.MONSTER);
-                monsterZone[i].setFaceDownDefense();
+                monsterZone[i].setCardPosition(CardPosition.FACE_DOWN_DEFENSE);
                 return true;
             }
         }
@@ -140,7 +137,7 @@ public class PlayingField {
             ICard loopCard = spellZone[i].getCard();
             if (loopCard == null) {
                 spellZone[i] = new FieldObject(card, DuelZone.SPELLANDTRAPS);
-                spellZone[i].setFaceDown();
+                spellZone[i].setCardPosition(CardPosition.FACE_DOWN);
                 return true;
             }
         }

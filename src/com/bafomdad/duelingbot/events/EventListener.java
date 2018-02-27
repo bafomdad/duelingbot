@@ -40,6 +40,7 @@ public class EventListener {
                 String player2 = (currentDuel.getPlayers()[1] != null) ? currentDuel.getPlayers()[1].getOwner().getName() : "[Empty]";
                 event.getMessage().edit("A duel has been queued up. Duelists: " + player1 + " / " + player2);
                 if (currentDuel.canPlay() && currentDuel.canStartDuel()) {
+                    currentDuel.startDuel();
                     MessageUtil.send(DuelingBot.INSTANCE, event.getChannel(), "The duel has started. Players: " + player1 + "/ " + player2);
                     event.getChannel().getMessageByID(DuelingBot.INSTANCE.getDuelQueue()).delete();
                     MessageUtil.send(DuelingBot.INSTANCE, event.getChannel(), currentDuel.getPlayingTurn().getOwner().getName() + " has first turn.");

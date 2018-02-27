@@ -28,18 +28,18 @@ public class CommandDuel extends ACommand {
     @Override
     public void execute(String[] args, IUser sender, IChannel channel) {
 
-        if (args.length < 2 && DuelingBot.INSTANCE.getDuelQueue() == -1) {
+        if (args.length < 2 && channel.getMessageByID(DuelingBot.INSTANCE.getDuelQueue()) == null) {
             MessageUtil.sendWithReaction(DuelingBot.INSTANCE, channel, "A duel has been queued up. Duelists: " + "[Empty] / [Empty]", ":cardBack:417220577502429184");
             return;
         }
-        if (args.length < 2 && DuelingBot.INSTANCE.getDuelQueue() != -1) {
+        if (args.length < 2 && channel.getMessageByID(DuelingBot.INSTANCE.getDuelQueue()) != null) {
             MessageUtil.send(DuelingBot.INSTANCE, channel, "A duel queue is already in effect.");
             return;
         }
-        if (args[1].equals("stop") /*&& DuelingBot.INSTANCE.getCurrentDuel().isDuelStarted()*/ && sender.getPermissionsForGuild(channel.getGuild()).contains(Permissions.ADMINISTRATOR)) {
+        if (args.length > 1 && args[1].equals("stop") /*&& DuelingBot.INSTANCE.getCurrentDuel().isDuelStarted()*/ && sender.getPermissionsForGuild(channel.getGuild()).contains(Permissions.ADMINISTRATOR)) {
             MessageUtil.send(DuelingBot.INSTANCE, channel, "Duel queue is already started / queued. Stopping duel...");
             DuelingBot.INSTANCE.getCurrentDuel().stopDuel();
-            DuelingBot.INSTANCE.setDuelQueue(-1);
+            //DuelingBot.INSTANCE.setDuelQueue(-1);
             return;
         }
     }

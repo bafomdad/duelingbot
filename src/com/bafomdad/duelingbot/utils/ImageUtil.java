@@ -1,6 +1,7 @@
 package com.bafomdad.duelingbot.utils;
 
 import com.bafomdad.duelingbot.api.ICard;
+import com.bafomdad.duelingbot.enums.CardPosition;
 import com.bafomdad.duelingbot.internal.*;
 
 import javax.imageio.ImageIO;
@@ -90,17 +91,12 @@ public class ImageUtil {
         for (int i = 1; i <= objs.length; i++) {
             FieldObject obj = objs[i - 1];
             if (obj.getCard() != null) {
-                if (obj.isFaceDown()) {
-                    if (obj.isDefensePosition())
-                        g.drawImage(rotate(cardDefault), 8 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY() + 3, null);
-                    else
-                        g.drawImage(cardDefault, 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null);
-                } else {
-                    BufferedImage monster = create(getImage(obj.getCard()));
-                    if (obj.isDefensePosition())
-                        g.drawImage(rotate(monster), 8 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY() + 3, null);
-                    else
-                        g.drawImage(monster, 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null);
+                BufferedImage monster = create(getImage(obj.getCard()));
+                switch (obj.getCardPosition()) {
+                    case FACE_DOWN_DEFENSE: g.drawImage(rotate(cardDefault), 8 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY() + 3, null); break;
+                    case FACE_DOWN: g.drawImage(cardDefault, 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null); break;
+                    case FACE_UP_DEFENSE: g.drawImage(rotate(monster), 8 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY() + 3, null); break;
+                    case FACE_UP: g.drawImage(monster, 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null); break;
                 }
             }
         }
@@ -112,14 +108,11 @@ public class ImageUtil {
         for (int i = 1; i <= objs.length; i++) {
             FieldObject obj = objs[i - 1];
             if (obj.getCard() != null) {
-                if (obj.isFaceDown()) {
+                if (obj.getCardPosition() == CardPosition.FACE_DOWN) {
                     g.drawImage(cardDefault, 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null);
-                } else {
+                }
+                else if (obj.getCardPosition() == CardPosition.FACE_UP) {
                     g.drawImage(create(getImage(obj.getCard())), 12 + (obj.getPosition().getX()) * i / 2, obj.getPosition().getY(), null);
-//                    switch (obj.getCard().getCardType()) {
-//                        case TRAP: g.drawImage(create(TRAPCARD), 12 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY(), null);
-//                        case SPELL: g.drawImage(create(SPELLCARD), 12 + ((int)obj.getPosition().getX()) * i / 2, (int)obj.getPosition().getY(), null);
-//                    }
                 }
             }
         }
@@ -129,9 +122,10 @@ public class ImageUtil {
 
         FieldObject obj = pf.getFieldZone()[0];
         if (obj.getCard() != null) {
-            if (obj.isFaceDown()) {
+            if (obj.getCardPosition() == CardPosition.FACE_DOWN) {
                 g.drawImage(cardDefault, obj.getPosition().getX(), obj.getPosition().getY(), null);
-            } else {
+            }
+            else if (obj.getCardPosition() == CardPosition.FACE_UP) {
                 g.drawImage(create(SPELLCARD), obj.getPosition().getX(), obj.getPosition().getY(), null);
             }
         }

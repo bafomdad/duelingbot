@@ -65,7 +65,7 @@ public class Duel {
 
         for (PlayingField pf : players) {
             if (pf != null && pf.getOwner() == user)
-                return pf.getOwner() == user;
+                return true;
         }
         return false;
     }
@@ -148,8 +148,9 @@ public class Duel {
             setFirstTurn();
             return;
         }
-        boolean flag = rollX > rollY;
-        this.currentPlayer = (flag) ? 1 : 0;
+        //boolean flag = rollX > rollY;
+        //this.currentPlayer = (flag) ? 0 : 1;
+        this.currentPlayer = 1;
         getPlayingTurn().setPhase(DuelPhase.DRAW);
     }
 

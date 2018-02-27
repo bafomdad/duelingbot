@@ -21,20 +21,25 @@ public class PhaseHandler {
         switch (phase) {
             case DRAW: {
                 MessageUtil.send(DuelingBot.INSTANCE, channel, player.getOwner().getName() + " enters their Draw Phase.");
+                return;
             }
             case STANDBY: {
                 MessageUtil.send(DuelingBot.INSTANCE, channel, player.getOwner().getName() + " entered their Standby Phase.");
                 player.cyclePhase();
-                cyclePhases(channel);
+                //cyclePhases(channel);
+                return;
             }
             case FIRST: {
                 MessageUtil.send(DuelingBot.INSTANCE, channel, player.getOwner().getName() + " entered Main Phase 1");
+                return;
             }
             case BATTLE: {
                 MessageUtil.send(DuelingBot.INSTANCE, channel, player.getOwner().getName() + " has started the Battle Phase.");
+                return;
             }
             case SECOND: {
                 MessageUtil.send(DuelingBot.INSTANCE, channel, player.getOwner().getName() + " entered Main Phase 2.");
+                return;
             }
             case END: {
                 PlayingField opponent = duel.getOpposite(player.getOwner());
@@ -42,6 +47,7 @@ public class PhaseHandler {
                 duel.changeTurns();
                 opponent.setPhase(DuelPhase.DRAW);
                 cyclePhases(channel);
+                return;
             }
         }
     }

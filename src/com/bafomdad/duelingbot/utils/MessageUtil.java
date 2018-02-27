@@ -75,7 +75,7 @@ public class MessageUtil {
         builder.appendField("Duelist", "Life Points", true);
         builder.appendField(pf.getOwner().getDisplayName(channel.getGuild()), String.valueOf(pf.getLifePoints()), true);
         builder.appendField("Hand", "Deck", true);
-        builder.appendField(String.valueOf(pf.getPlayerHand().getHand().size()), String.valueOf(pf.getPlayerDeck().getDeck().size()), true);
+        builder.appendField(String.valueOf(pf.getPlayerHand().getHand().size()), String.valueOf(pf.getPlayerDeck().getDeck().size()), false);
 
         RequestBuffer.request(() -> channel.sendFile(builder.build(), ImageUtil.getField(pf), "field.png"));
     }
@@ -88,7 +88,7 @@ public class MessageUtil {
         builder.withColor(110, 150, 190);
         builder.withTitle(user.getName() + "'s hand");
         for (int i = 0; i < cardList.size(); i++) {
-            builder.appendDesc(i + ": " + cardList.get(i).getCardName());
+            builder.appendDesc(i + ": " + cardList.get(i).getCardName() + "\n");
         }
         if (hand.isVisibleToOpponent()) {
             RequestBuffer.request(() ->
